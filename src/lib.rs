@@ -74,8 +74,11 @@ mod tests {
         assert_eq!(format!("{}", fact_b), "[(2, 2), (5, 2)]");
     }
 
+    /*
+     * WARNING! SLOW TEST!
+     */
     #[test]
-    fn test_primes_iter() {
+    fn test_big_primes() {
         let mut primes: Primes = Primes::new();
         primes.primes_conf = PrimesConf::Constant;
 
