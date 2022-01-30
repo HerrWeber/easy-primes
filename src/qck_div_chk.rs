@@ -1,3 +1,8 @@
+/*
+ * This part is to check for divisibility without dividing the number...
+ * For small numbers this has no preformance benefit, but for bigg numebers it has.
+ */
+
 #[derive(Debug)]
 pub enum QckDiv {
     Two = 2,
@@ -24,7 +29,7 @@ impl QckDiv {
 
         let mut n_aux: String = format!("{}", n);
 
-        let result = match self {
+        match self {
             QckDiv::Two => {
                 let digit = n_aux.pop().unwrap();
                 vec![0, 2, 4, 6, 8].contains(&digit.to_digit(radix).unwrap())
@@ -46,6 +51,9 @@ impl QckDiv {
                 vec![0, 5].contains(&digit.to_digit(radix).unwrap())
             }
             QckDiv::Seven => {
+                /*
+                 * Take the last digit, multiply by 2, substract it to the rest of the digits, and repeat.
+                 */
                 while n_aux.len() > 2 {
                     let digit = n_aux.pop().unwrap();
                     let right: u32 = &digit.to_digit(radix).unwrap() * 2;
@@ -56,7 +64,6 @@ impl QckDiv {
                 let x = &n_aux.parse::<u32>().unwrap();
                 vec![7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 98].contains(x)
             }
-        };
-        return result;
+        }
     }
 }

@@ -44,25 +44,6 @@ impl DerefMut for Primes {
         &mut self.primes_vec[..]
     }
 }
-/*
-pub struct PrimesIter<'a> {
-    values: &'a Vec<usize>,
-    index: usize,
-}
-
-impl<'a> Iterator for PrimesIter<'a> {
-    type Item = &'a usize;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        if self.index >= self.values.len() {
-            return None
-        }
-
-        self.index += 1;
-        Some(&self.values[self.index - 1])
-    }
-}
-*/
 
 impl Primes {
     pub fn new() -> Primes {
@@ -191,6 +172,10 @@ impl Primes {
     }
 
     pub fn factorice_number(&mut self, num: usize) -> Factors {
+        /*
+         * We factorice a number and return Factors => Vec<Factor> => Vec<(Prime, Count)>
+         * Factors has some usefull functions wich makes this code a little bit prettier
+         */
         let mut number = num;
         let mut result: Factors = Factors::new();
 
@@ -215,6 +200,11 @@ impl Primes {
     }
 }
 
+/*
+ * First try at implementing the "final functionality"
+ * This is where the Easy part comes in
+ */
+
 pub trait Prime {
     fn is_prime(&self) -> bool;
     fn is_prime_(&self, ps: &mut Primes) -> bool;
@@ -230,12 +220,16 @@ where
     T: Integer,
     T: num::cast::ToPrimitive,
 {
+    /*
+     * ToDo:
+     *      - Find a way to overload the functions so they are called the same way... (Rust doesn't allow overloading but it can be done)
+     *      - Error checking should be done better
+     */
     fn is_prime(&self) -> bool {
         let mut primes: Primes = Primes::new();
         primes.primes_conf = PrimesConf::Constant;
         primes.n_is_prime(self.to_usize().unwrap_or_default())
     }
-
     fn is_prime_(&self, ps: &mut Primes) -> bool {
         ps.n_is_prime(self.to_usize().unwrap_or_default())
     }
