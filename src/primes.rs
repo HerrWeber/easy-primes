@@ -8,6 +8,9 @@ pub struct Primes {
 }
 
 pub enum PrimesConf {
+    /*
+     * This will eventualy die, when we can "predict" how many primes we would need
+     */
     Constant,
     Linear,
     Exponential,
@@ -186,40 +189,6 @@ impl Primes {
          */
         self.primes_vec.contains(&n)
     }
-
-    /*
-    fn factorice_number(&mut self, num: usize) -> Vec<Factor> {
-        /*
-            * this will disapear once the factors type is finished...
-            */
-        let mut number = num;
-        let mut result: Vec<Factor> = Vec::new();
-
-        if num <= 1 {
-            return result;
-        }
-        if self.n_is_prime(num) {
-            let fac = Factor::new(num, 1);
-            result.push(fac);
-            return result;
-        }
-
-        for &p in &self.primes_vec {
-            let mut fac: Factor = Factor::new(p, 0);
-            while number % p == 0 {
-                fac.add_fact();
-                number = number / p;
-            }
-            if fac.cant > 0 {
-                result.push(fac);
-            }
-            if number <= 1 {
-                break;
-            }
-        }
-        result
-    }
-    */
 
     pub fn factorice_number(&mut self, num: usize) -> Factors {
         let mut number = num;

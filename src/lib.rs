@@ -89,15 +89,17 @@ mod tests {
         println!("{} is prime? {}", y, y.is_prime_(&mut primes));
         println!("{} Factors => {}", y, y.get_factors_(&mut primes));
         assert!(true);
-/*
-        let mut p_a: usize;
-        let mut p_b: usize = 0;
-        for p in primes.iter() {
-            p_a = p_b;
-            p_b = *p;
-            let r: f64 = (p_a as f64) / (p_b as f64);
-            println!("{} / {} = {}", p_a, p_b, r);
-        }
-*/
     }
+
+    #[test]
+    fn test_iterator() {
+        let primes: Primes = Primes::new();
+        let mut i = 0;
+
+        for p in primes.iter() {
+            println!("Prime n: {} => {}", i, p);
+            i += 1;
+        }
+    }
+
 }

@@ -1,3 +1,5 @@
+use std::ops::{Deref, DerefMut};
+
 #[derive(Debug, PartialEq)]
 pub struct Factor {
     prime: usize,
@@ -25,13 +27,27 @@ impl Factor {
 }
 
 pub struct Factors {
-    vf: Vec<Factor>,
+    factor_vec: Vec<Factor>,
+}
+
+impl Deref for Factors {
+    type Target = [Factor];
+
+    fn deref(&self) -> &[Factor] {
+        &self.factor_vec[..]
+    }
+}
+
+impl DerefMut for Factors {
+    fn deref_mut(&mut self) -> &mut [Factor] {
+        &mut self.factor_vec[..]
+    }
 }
 
 impl std::fmt::Display for Factors {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let mut tmp: String = String::default();
-        for x in self.vf.iter() {
+        for x in self.factor_vec.iter() {
             if tmp == "" {
                 tmp = format!("{}", x);
             } else {
@@ -44,19 +60,19 @@ impl std::fmt::Display for Factors {
 
 impl Factors {
     pub fn new() -> Factors {
-        Factors { vf: Vec::new() }
+        Factors { factor_vec: Vec::new() }
     }
 
     pub fn de_factor(&self) -> usize {
         let mut result: usize = 1;
-        for f in self.vf.iter() {
+        for f in self.factor_vec.iter() {
             result *= f.de_factor();
         }
         return result;
     }
 
     pub fn get_factor(&mut self, p: usize) -> Option<&mut Factor> {
-        for f in self.vf.iter_mut() {
+        for f in self.factor_vec.iter_mut() {
             if f.prime == p {
                 return Some(f);
             }
@@ -69,7 +85,7 @@ impl Factors {
             Some(f) => f.add_factor(),
             None => {
                 let f = Factor::new(p);
-                self.vf.push(f);
+                self.factor_vec.push(f);
             }
         }
     }
